@@ -48,31 +48,37 @@
     <p>Iklan biasanya muncul <strong>2 kali</strong>, setelah itu tunggu sebentar, halaman akan otomatis menuju ke <strong>VIDEY</strong>.</p>
   </div>
 
-  <!-- Iklan di atas countdown -->
+  <!-- Iklan atas -->
   <div class="ads-container">
     <script type='text/javascript' src='//pl26230795.effectiveratecpm.com/7c/ba/8f/7cba8f9c438d27103851dca0a6135216.js'></script>
   </div>
 
   <p>Anda akan dialihkan dalam <span id="countdown">5</span> detik.</p>
 
-  <!-- Iklan di bawah countdown -->
+  <!-- Iklan bawah -->
   <div class="ads-container">
     <script src="https://www.effectiveratecpm.com/z6tm9azca?key=caa878184bec227aac28556e38c42760" async data-cfasync="false"></script>
-  </div>
-
-  <!-- Iklan tambahan di atas tombol "Lanjutkan" -->
-  <div class="ads-container">
-    <script type='text/javascript' src='//pl26230795.effectiveratecpm.com/7c/ba/8f/7cba8f9c438d27103851dca0a6135216.js'></script>
   </div>
 
   <button id="continue">Lanjutkan</button>
 
   <script>
-    const params = new URLSearchParams(window.location.search);
-    const targetURL = params.get("url") || "https://videy.co";
+    function getTargetURL() {
+      const params = new URLSearchParams(window.location.search);
+      const encoded = params.get("url");
+      if (!encoded) return "https://videy.co"; // default fallback
+
+      try {
+        return atob(encoded); // decode Base64
+      } catch (e) {
+        return "https://videy.co";
+      }
+    }
+
+    const targetURL = getTargetURL();
 
     let countdown = 5;
-    let countdownInterval = setInterval(function () {
+    let countdownInterval = setInterval(() => {
       countdown--;
       document.getElementById("countdown").innerText = countdown;
       if (countdown === 0) {
@@ -81,9 +87,10 @@
       }
     }, 1000);
 
-    document.getElementById("continue").addEventListener("click", function () {
+    document.getElementById("continue").addEventListener("click", () => {
       window.open("https://www.effectiveratecpm.com/z6tm9azca?key=caa878184bec227aac28556e38c42760", "_blank");
-      setTimeout(function () {
+
+      setTimeout(() => {
         window.location.href = targetURL;
       }, 3000);
     });
