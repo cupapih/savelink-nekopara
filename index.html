@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Safelink Redirect</title>
   <style>
     body {
@@ -44,8 +44,8 @@
 
   <div class="instructions">
     <p><strong>Cara lewati iklan:</strong></p>
-    <p>Jika terkena iklan, tekan tombol <strong>kembali (back)</strong> saja.</p>
-    <p>Iklan biasanya muncul <strong>2 kali</strong>, setelah itu tunggu sebentar, halaman akan otomatis menuju ke <strong>VIDEY</strong>.</p>
+    <p>Jika muncul iklan, cukup tekan tombol <strong>kembali</strong>.</p>
+    <p>Setelah 5 detik, tekan tombol <strong>Lanjutkan</strong> dan kamu akan diarahkan ke <strong>VIDEY</strong>.</p>
   </div>
 
   <!-- Iklan atas -->
@@ -66,10 +66,10 @@
     function getTargetURL() {
       const params = new URLSearchParams(window.location.search);
       const encoded = params.get("url");
-      if (!encoded) return "https://videy.co"; // default fallback
+      if (!encoded) return "https://videy.co";
 
       try {
-        return atob(encoded); // decode Base64
+        return atob(encoded);
       } catch (e) {
         return "https://videy.co";
       }
@@ -78,18 +78,26 @@
     const targetURL = getTargetURL();
 
     let countdown = 5;
-    let countdownInterval = setInterval(() => {
+    const countdownEl = document.getElementById("countdown");
+    const continueBtn = document.getElementById("continue");
+
+    const timer = setInterval(() => {
       countdown--;
-      document.getElementById("countdown").innerText = countdown;
+      countdownEl.innerText = countdown;
       if (countdown === 0) {
-        clearInterval(countdownInterval);
-        document.getElementById("continue").style.display = "inline-block";
+        clearInterval(timer);
+        continueBtn.style.display = "inline-block";
       }
     }, 1000);
 
-    document.getElementById("continue").addEventListener("click", () => {
+    continueBtn.addEventListener("click", () => {
+      // Popunder 1: JuicyAds
+      window.open("https://js.juicyads.com/jp.php?c=4464u233x2a4u4r2o2e4y25424&u=https%3A%2F%2Fwww.juicyads.rocks", "_blank");
+
+      // Popunder 2: CPM network lain (contoh Effectiverate)
       window.open("https://www.effectiveratecpm.com/z6tm9azca?key=caa878184bec227aac28556e38c42760", "_blank");
 
+      // Redirect ke tujuan utama
       setTimeout(() => {
         window.location.href = targetURL;
       }, 3000);
